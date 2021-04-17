@@ -1,0 +1,50 @@
+version: "3.8"
+
+networks:
+  starter-network:
+    name: starter-network
+
+services:
+  backend:
+    container_name: starter-backend
+    image: "node:12.13-alpine"
+    command: sh -c "yarn && yarn start:dev"
+    restart: on-failure
+    volumes:
+      - "./backend/package.json:/usr/app/package.json"
+      - "./backend/yarn.lock:/usr/app/yarn.lock"
+      - "./backend/nest-cli.json:/usr/app/nest-cli.json"
+      - "./backend/tsconfig.json:/usr/app/tsconfig.json"
+      - "./backend/tsconfig.build.json:/usr/app/tsconfig.build.json"
+      - "./backend/ormconfig.ts:/usr/app/ormconfig.ts"
+      - "./backend/src:/usr/app/src"
+      - "./backend/migrations:/usr/app/migrations"
+      - "backend_node_modules:/usr/app/node_modules"
+    working_dir: /usr/app
+    ports:
+      - "${BACKEND_PORT:-4000}:4000"
+      - "${DEBUGGER_PORT:-9229}:9229"
+    depends_on:
+      - db
+    env_file:
+      - .env
+    networks:
+      - starter-network
+
+  db:
+    container_name: starter-db
+    image: postgres:13.2
+    restart: on-failure
+    environment:
+      POSTGRES_USER: "${DATABASE_USER}"
+      POSTGRES_PASSWORD: "${DATABASE_PASSWORD}"
+      POSTGRES_DB: "${DATABASE_NAME}"
+    ports:
+      - "${DATABASE_PORT:-5432}:5432"
+    env_file:
+      - .env
+    networks:
+      - starter-network
+
+volumes:
+  backend_node_modules:

@@ -1,0 +1,25 @@
+{
+  "folders": [
+    {
+      "name": "root",
+      "path": "."
+    },
+    {
+      "name": "backend",
+      "path": "backend"
+    }
+  ],
+  "settings": {
+    "git.ignoreLimitWarning": true,
+    "files.associations": {
+      "Dockerfile.prod": "dockerfile",
+      ".env.template": "dotenv"
+    },
+    "files.exclude": {},
+    "editor.formatOnSave": true,
+    "typescript.tsdk": "root/node_modules/typescript/lib",
+    "npm.packageManager": "yarn",
+    "tslint.packageManager": "yarn",
+    "cSpell.words": ["nestjs", "prebuild", "typeorm"]
+  }
+}
