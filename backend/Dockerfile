@@ -11,6 +11,7 @@ COPY tsconfig.json tsconfig.build.json nest-cli.json ./
 
 # Copy app sources
 COPY src src/
+COPY migrations migrations/
 
 RUN yarn build
 
